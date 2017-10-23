@@ -19,7 +19,7 @@ The final column, sensortime, will be leveraged for the time of day in which the
 values are read (or, at least, within a few seconds). The data type for this is timestamp, 
 which corresponds to an internal clock every time the row is added to the database.
 
-(../picture.jpg?raw=TRUE)
+(https://github.com/efrymire/data-structures/blob/master/week_08/picture.jpg)
 
 
 #### PSQL Code
