@@ -21,7 +21,7 @@ The final column, sensortime, will be leveraged for the time of day in which the
 values are read (or, at least, within a few seconds). The data type for this is timestamp, 
 which corresponds to an internal clock every time the row is added to the database.
 
-[Data Table Model](images/datamodel.jpg)
+[Data Table Model](https://user-images.githubusercontent.com/31359167/32036382-7f6899b6-b9ed-11e7-896f-6a24fd7c19ce.jpg)
 
 #### Shower Vacancy Project
 
