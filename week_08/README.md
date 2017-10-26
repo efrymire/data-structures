@@ -41,7 +41,7 @@ reflect the light back to the sensor (result of "0").
 Our bathroom has very little ventilation. When the shower is in use, the room gets much warmer, 
 and the recorded temperature should increase.
 
-[Shower Vacancy visualization](images/Shower_vacancy.jpg)
+[Shower Vacancy visualization](https://raw.githubusercontent.com/efrymire/data-structures/week_08/images/Shower_vacancy.jpg)
 
 #### "Netflix and Chill" Project
 
