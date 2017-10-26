@@ -41,7 +41,7 @@ reflect the light back to the sensor (result of "0").
 Our bathroom has very little ventilation. When the shower is in use, the room gets much warmer, 
 and the recorded temperature should increase.
 
-[Shower Vacancy visualization](https://raw.githubusercontent.com/efrymire/data-structures/week_08/images/Shower_vacancy.jpg)
+[Shower Vacancy visualization](https://user-images.githubusercontent.com/31359167/32036352-509ebc14-b9ed-11e7-9957-3165d5b3d714.jpg)
 
 #### "Netflix and Chill" Project
 
@@ -51,7 +51,7 @@ along with the temperature of the living room.
 I've placed the photon particle next to the tv, and it actively measures remote activity 
 along with the often frigid temperatures in our living room. This project has been tested and works well. 
 
-[Netflix and Chill visualization](images/Netflix_and_chill.jpg)
+[Netflix and Chill visualization](https://user-images.githubusercontent.com/31359167/32036353-50ab55f0-b9ed-11e7-9dc9-0724d8533524.jpg)
 
 #### PSQL Code
 
