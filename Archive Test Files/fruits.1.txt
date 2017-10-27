@@ -1,0 +1,50 @@
+<ul id="fruits">
+  <li class="apple">Apple</li>
+  <li class="orange">Orange</li>
+  <li class="pear">Pear</li>
+</ul>
+
+<table>
+    <tbody>
+        <tr style="margin-bottom:10px">
+            <td style="border-bottom:1px solid #e3e3e3; width:260px" valign="top">
+            	<h4 style="margin:0;padding:0;">Holy Rood Church</h4><br />
+    	  	    <b>BRIDGE TO SOBRIETY (:I) - Bridge To Sobriety</b><br />
+    			715 West 179th Street, 
+    			<br />(Betw Bway & Fort Washington Avenue) NY 10033
+    			<br />
+    			<br />
+                
+                <div class="detailsBox"> 
+                	Living Sober Last Tuesday, T Last Wednesday 
+                </div>
+            </td>
+            <td style="border-bottom:1px solid #e3e3e3;width:350px;" valign="top">
+           	 	
+                <b>Mondays From</b>  10:00 AM <b>to</b> 11:00 AM <br /><b>Meeting Type</b> OD = Open Discussion meeting 
+     			<br />
+            	<br />
+            	
+    	  	    <b>Tuesdays From</b>  10:00 AM <b>to</b> 11:00 AM <br /><b>Meeting Type</b> B = Beginners meeting <br /><b>Special Interest</b> Living Sober
+     			<br />
+            	<br />
+            	
+    	  	    <b>Wednesdays From</b>  10:00 AM <b>to</b> 11:00 AM <br /><b>Meeting Type</b> BB = Big Book meeting 
+     			<br />
+            	<br />
+            	
+    	  	    <b>Thursdays From</b>  10:00 AM <b>to</b> 11:00 AM <br /><b>Meeting Type</b> S = Step meeting 
+     			<br />
+            	<br />
+            	
+    	  	    <b>Fridays From</b>  10:00 AM <b>to</b> 11:00 AM <br /><b>Meeting Type</b> OD = Open Discussion meeting 
+     			<br />
+            	<br />
+            		
+			</td> 
+            <td style="border-bottom:1px solid #dedede; width:90px; ">
+            	<a href="getdirections.cfm?meetingid=65" class="GetDirections">Get Directions</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
