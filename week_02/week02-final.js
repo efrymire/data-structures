@@ -20,5 +20,3 @@ function fillArray() {
 }
 
 fillArray();
-
-

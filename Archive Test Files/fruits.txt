@@ -1,0 +1,42 @@
+<ul id="fruits">
+  <li class="apple">Apple</li>
+  <li class="orange">Orange</li>
+  <li class="pear">Pear</li>
+</ul>
+
+<table>
+    <tbody>
+        <tr>
+            <td>Apple
+                <h4>location</h4>
+                <br> </br>
+                <b>title</b>
+                "address"
+                <div class="detailsBox">div</div>
+                <span>span</span>
+                </td>
+            <td>Orange
+                <b> fake </b>
+                </td>
+            <td>Pear
+                <b> fake </b>
+                </td>
+        </tr>
+        <tr>
+            <td>Apple2
+                <h4>location</h4>
+                <br> </br>
+                <b>title</b>
+                "address"
+                <div class="detailsBox">div</div>
+                <span>span</span>
+                </td>
+            <td>Orange2
+                <b> fake </b>
+                </td>
+            <td>Pear2
+                <b> fake </b>
+                </td>
+        </tr>
+    </tbody>
+</table>
