@@ -1,6 +1,11 @@
 # Information Regarding This Assignment
 ### Weekly Assignment 5/6, Due October 9 at 4PM
 
+11/30: This weekly assignment has been completed and the code is updated. The details below are out of date. 
+
+---------
+
+
 Although this submission may appear somewhat complete, it lacks several key components. I intend to keep working, whether for credit or not, to achieve the intended result. I've outlined my intended approach and challenges below.
 
 #### Intended Approach:
