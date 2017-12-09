@@ -19,17 +19,6 @@ var addressData = [];
 var content = fs.readFileSync('week_01_data/m01.txt')
 var $ = cheerio.load(content);
 
-// m10 (i=1; i<23; i++)
-// m01 (i=1; i<23; i++)
-// m02 (i=1; i<29; i++)
-// m03
-// m04 
-// m05 
-// m06 
-// m07
-// m08
-// m09
-
 
 // ----------------------- ORDER -----------------------
 // run the correct function analysis order on the read content
@@ -282,6 +271,9 @@ function api() {
             + 'New+York+NY'
             + '&key='
             + apiKey;
+            
+        // console.log(apiRequest)
+        
         var thisMeeting = new Object;
         
         thisMeeting.address1 = value;
@@ -300,7 +292,7 @@ function api() {
         });
         setTimeout(callback, 200);
     }, function() {
-        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
+        fs.writeFileSync('addressdata_m01.txt', JSON.stringify(addressData));
     });
 }
 
@@ -311,7 +303,7 @@ function api() {
 
 function jsonNotation() {
     
-    var addressData = fs.readFileSync('addressdata.txt');
+    var addressData = fs.readFileSync('addressdata_m01.txt');
     var addressDataParsed = JSON.parse(addressData);
     
     for (i=0; i<22; i++) {
@@ -321,7 +313,7 @@ function jsonNotation() {
         thisLocation.groupName = leftCol[i][1];
         thisLocation.address1 = address1[i];
         thisLocation.address2 = address2[i];
-        thisLocation.borough = 'xxx';
+        thisLocation.group = 'm01';
         thisLocation.latLong = addressDataParsed[i].latLong;
         thisLocation.notes = leftCol[i][4];
         thisLocation.wheelchair = leftCol[i][5];
@@ -329,7 +321,7 @@ function jsonNotation() {
         
         jsonMeetings.push(thisLocation);
     }
-// console.log(jsonMeetings)
+console.log(jsonMeetings)
 }
 
 // ----------------------- MONGO -----------------------

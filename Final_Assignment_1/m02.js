@@ -16,19 +16,8 @@ var details = [];
 var jsonMeetings = [];
 var addressData = [];
 
-var content = fs.readFileSync('week_01_data/m01.txt')
+var content = fs.readFileSync('week_01_data/m02.txt')
 var $ = cheerio.load(content);
-
-// m10 (i=1; i<23; i++)
-// m01 (i=1; i<23; i++)
-// m02 (i=1; i<29; i++)
-// m03
-// m04 
-// m05 
-// m06 
-// m07
-// m08
-// m09
 
 
 // ----------------------- ORDER -----------------------
@@ -51,14 +40,14 @@ runAnalysis()
 // (2) the meeting specific details in the center column cell
 
 function fillArrays() {
-    for (i=1; i<23; i++) {
+    for (i=1; i<29; i++) {
         locationNames.push(
             $('h4').eq(i+1).text().trim()
             .replace(/\t/g,'')
             .replace(/\n/g,'')
             );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<29; i++) {
         address1.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -70,7 +59,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<29; i++) {
         address2.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -82,7 +71,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<29; i++) {
         leftCol.push($('td')
             .eq((i*3)).contents().text().trim()
             .replace('\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n                         \n\t\t\t\t\t\t\n                        ',' // ')
@@ -93,7 +82,7 @@ function fillArrays() {
             .replace('\n                        \n                         \n\t\t\t\t\t\t\n                        ',' // ')
         );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<29; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
             .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
@@ -282,6 +271,9 @@ function api() {
             + 'New+York+NY'
             + '&key='
             + apiKey;
+            
+        // console.log(apiRequest)
+        
         var thisMeeting = new Object;
         
         thisMeeting.address1 = value;
@@ -300,7 +292,7 @@ function api() {
         });
         setTimeout(callback, 200);
     }, function() {
-        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
+        fs.writeFileSync('addressdata_m02.txt', JSON.stringify(addressData));
     });
 }
 
@@ -311,17 +303,17 @@ function api() {
 
 function jsonNotation() {
     
-    var addressData = fs.readFileSync('addressdata.txt');
+    var addressData = fs.readFileSync('addressdata_m02.txt');
     var addressDataParsed = JSON.parse(addressData);
     
-    for (i=0; i<22; i++) {
+    for (i=0; i<29; i++) {
         
         var thisLocation = new Object;
         
         thisLocation.groupName = leftCol[i][1];
         thisLocation.address1 = address1[i];
         thisLocation.address2 = address2[i];
-        thisLocation.borough = 'xxx';
+        thisLocation.group = 'm02';
         thisLocation.latLong = addressDataParsed[i].latLong;
         thisLocation.notes = leftCol[i][4];
         thisLocation.wheelchair = leftCol[i][5];
@@ -329,7 +321,7 @@ function jsonNotation() {
         
         jsonMeetings.push(thisLocation);
     }
-// console.log(jsonMeetings)
+console.log(jsonMeetings)
 }
 
 // ----------------------- MONGO -----------------------

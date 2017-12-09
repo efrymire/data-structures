@@ -16,19 +16,8 @@ var details = [];
 var jsonMeetings = [];
 var addressData = [];
 
-var content = fs.readFileSync('week_01_data/m01.txt')
+var content = fs.readFileSync('week_01_data/m03.txt')
 var $ = cheerio.load(content);
-
-// m10 (i=1; i<23; i++)
-// m01 (i=1; i<23; i++)
-// m02 (i=1; i<29; i++)
-// m03
-// m04 
-// m05 
-// m06 
-// m07
-// m08
-// m09
 
 
 // ----------------------- ORDER -----------------------
@@ -38,9 +27,9 @@ async function runAnalysis() {
     
     fillArrays();
     cleanseDetails();
-    meetingObjects();
-    api();
-    jsonNotation();
+    // meetingObjects();
+    // api();
+    // jsonNotation();
     // addToMongo();
 };
 
@@ -51,14 +40,14 @@ runAnalysis()
 // (2) the meeting specific details in the center column cell
 
 function fillArrays() {
-    for (i=1; i<23; i++) {
+    for (i=1; i<75; i++) {
         locationNames.push(
             $('h4').eq(i+1).text().trim()
             .replace(/\t/g,'')
             .replace(/\n/g,'')
             );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<75; i++) {
         address1.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -70,7 +59,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<75; i++) {
         address2.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -82,7 +71,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<75; i++) {
         leftCol.push($('td')
             .eq((i*3)).contents().text().trim()
             .replace('\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n                         \n\t\t\t\t\t\t\n                        ',' // ')
@@ -93,27 +82,26 @@ function fillArrays() {
             .replace('\n                        \n                         \n\t\t\t\t\t\t\n                        ',' // ')
         );
     }
-    for (i=1; i<23; i++) {
+    for (i=1; i<75; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
             .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Sundays','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Sundays')
             .replace('Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Format\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Format \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Format\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Format \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
             .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
             .replace('Meditation\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Meditation \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Thursdays','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Thursdays')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Tuesdays','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Tuesdays')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Format\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Format \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Deaf\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Deaf \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Welcome\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Welcome \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays')
             .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Sundays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual','Sundays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual')
+            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays')
+            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Wednesdays','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Wednesdays')
+            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Tuesdays From  6:45 PM to 7:45 PM Meeting Type C = Closed Discussion meeting Special Interest Men','Men  \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Tuesdays From  6:45 PM to 7:45 PM Meeting Type C = Closed Discussion meeting Special Interest Men')
+            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Thursdays','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Thursdays')
+            .replace('1-2-3\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','1-2-3 \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Workshop\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Workshop \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Workshop\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Mondays','Workshop \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Mondays')
+            .replace('Workshop\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays','Workshop \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays')
+            .replace('Agnostic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Agnostic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Positive\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Positive \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
@@ -163,27 +151,31 @@ function cleanseDetails() {
     }
     
     for (i in address1) {
-    if (address1[i] == '550 West 155th Street 2nd Floor Guild Room') {
-        address1[i] = '550 West 155th Street' }
-    if (address1[i] == '178 Bennett Avenue 2nd Floor (Lorenz Library)') {
-        address1[i] = '178 Bennett Avenue' }
-    if (address1[i] == '178 Bennett Avenue Kitchen') {
-        address1[i] = '178 Bennett Avenue' }
-    if (address1[i] == '189th Street & Bennett Avenue Kitchen') {
-        address1[i] = '189th Street and Bennett Avenue' }
-    if (address1[i] == '502 West165th Street Basement') {
-        address1[i] = '502 West 165th Street' }
-    if (address1[i] == '20 Cardinal Hayes Place Enter thru driveway behind Church.') {
-        address1[i] = '20 Cardinal Hayes Place' }
-    if (address1[i] == '20 Cardinal Hayes Place Enter through driveway behind Church.') {
-        address1[i] = '20 Cardinal Hayes Place' }
-    if (address1[i] == '273 Bowery Downstairs') {
-        address1[i] = '273 Bowery St' }
+    if (address1[i] == '50 East 7th Street 3rd and 4th floors') {
+        address1[i] = '50 East 7th Street' }
+    if (address1[i] == '7 East 10th Street 2nd Floor (Note: A photo ID is required to enter the building.)') {
+        address1[i] = '7 East 10th Street 2nd Floor' }
+    if (address1[i] == '19 Union Square West 7th Floor Ask for room #.') {
+        address1[i] = '19 Union Square West' }
+    if (address1[i] == '12 West 12th Street 6th Floor-Roof Level') {
+        address1[i] = '12 West 12th Street' }
+    if (address1[i] == '10 East Union Square 4th Floor Conf.Rm.#4A18') {
+        address1[i] = '10 East Union Square' }
+    if (address1[i] == '116 W. 11th Street Cafeteria') {
+        address1[i] = '116 West 11th Street' }
+    if (address1[i] == '125 West 14th Street Kuttner Room') {
+        address1[i] = '125 West 14th Street' }
+    if (address1[i] == '202 West 24 Street Mezzanine') {
+        address1[i] = '202 West 24 Street' }
+    if (address1[i] == '209 East 16th Street Olmstead Hall') {
+        address1[i] = '209 East 16th Street' }
+    if (address1[i] == '12 West 12th Street Third Floor') {
+        address1[i] = '12 West 12th Street' }
     }
     
     // console.log(locationNames)
     // console.log(leftCol)
-    // console.log(details)
+    console.log(details)
     // console.log(address1)
     // console.log(address2)
     
@@ -282,6 +274,9 @@ function api() {
             + 'New+York+NY'
             + '&key='
             + apiKey;
+            
+        // console.log(apiRequest)
+        
         var thisMeeting = new Object;
         
         thisMeeting.address1 = value;
@@ -298,9 +293,9 @@ function api() {
             
             addressData.push(thisMeeting);
         });
-        setTimeout(callback, 200);
+        setTimeout(callback, 1000);
     }, function() {
-        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
+        fs.writeFileSync('addressdata.txt_m03', JSON.stringify(addressData));
     });
 }
 
@@ -311,17 +306,17 @@ function api() {
 
 function jsonNotation() {
     
-    var addressData = fs.readFileSync('addressdata.txt');
+    var addressData = fs.readFileSync('addressdata_m03.txt');
     var addressDataParsed = JSON.parse(addressData);
     
-    for (i=0; i<22; i++) {
+    for (i=0; i<74; i++) {
         
         var thisLocation = new Object;
         
         thisLocation.groupName = leftCol[i][1];
         thisLocation.address1 = address1[i];
         thisLocation.address2 = address2[i];
-        thisLocation.borough = 'xxx';
+        thisLocation.group = 'm03';
         thisLocation.latLong = addressDataParsed[i].latLong;
         thisLocation.notes = leftCol[i][4];
         thisLocation.wheelchair = leftCol[i][5];
