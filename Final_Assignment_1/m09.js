@@ -16,7 +16,7 @@ var details = [];
 var jsonMeetings = [];
 var addressData = [];
 
-var content = fs.readFileSync('week_01_data/m05.txt')
+var content = fs.readFileSync('week_01_data/m09.txt')
 var $ = cheerio.load(content);
 
 
@@ -29,7 +29,7 @@ async function runAnalysis() {
     cleanseDetails();
     meetingObjects();
     api();
-    // jsonNotation();
+    jsonNotation();
     // addToMongo();
 };
 
@@ -40,14 +40,14 @@ runAnalysis()
 // (2) the meeting specific details in the center column cell
 
 function fillArrays() {
-    for (i=1; i<28; i++) {
+    for (i=1; i<5; i++) {
         locationNames.push(
             $('h4').eq(i+1).text().trim()
             .replace(/\t/g,'')
             .replace(/\n/g,'')
             );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<5; i++) {
         address1.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -59,7 +59,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<5; i++) {
         address2.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -71,7 +71,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<5; i++) {
         leftCol.push($('td')
             .eq((i*3)).contents().text().trim()
             .replace('\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n                         \n\t\t\t\t\t\t\n                        ',' // ')
@@ -82,22 +82,9 @@ function fillArrays() {
             .replace('\n                        \n                         \n\t\t\t\t\t\t\n                        ',' // ')
         );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<5; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
-            .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Meditation\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Meditation \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Workshop\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Workshop \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
@@ -127,7 +114,6 @@ function cleanseDetails() {
             leftCol[i][5] = 'Wheelchair available'}
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
-            
     }
     
     for (i in details) {
@@ -143,10 +129,8 @@ function cleanseDetails() {
     }
     
     for (i in address1) {
-    if (address1[i] == '141 East 43rd Street Basement Hall elevator is available.') {
-        address1[i] = '141 East 43rd Street' }
-    if (address1[i] == '236 EAST 31st STREET basement') {
-        address1[i] = '236 E 31st St' }
+    if (address1[i] == '22 East 119th Street  1st Floor Cafeteria') {
+        address1[i] = '22 East 119th Street' }
     }
     
     // console.log(locationNames)
@@ -269,9 +253,9 @@ function api() {
             
             addressData.push(thisMeeting);
         });
-        setTimeout(callback, 1000);
+        setTimeout(callback, 800);
     }, function() {
-        console.log(addressData)
+        // console.log(addressData)
         fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
     });
 }
@@ -286,14 +270,14 @@ function jsonNotation() {
     var addressData = fs.readFileSync('addressdata.txt');
     var addressDataParsed = JSON.parse(addressData);
     
-    for (i=0; i<27; i++) {
+    for (i=0; i<4; i++) {
         
         var thisLocation = new Object;
         
         thisLocation.groupName = leftCol[i][1];
         thisLocation.address1 = address1[i];
         thisLocation.address2 = address2[i];
-        thisLocation.group = 'm05';
+        thisLocation.group = 'm07';
         thisLocation.latLong = addressDataParsed[i].latLong;
         thisLocation.notes = leftCol[i][4];
         thisLocation.wheelchair = leftCol[i][5];
@@ -325,3 +309,4 @@ function addToMongo() {
         });
     });
 }
+

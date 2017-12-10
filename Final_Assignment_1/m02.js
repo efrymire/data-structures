@@ -30,7 +30,7 @@ async function runAnalysis() {
     meetingObjects();
     api();
     jsonNotation();
-    // addToMongo();
+    addToMongo();
 };
 
 runAnalysis()
@@ -292,7 +292,8 @@ function api() {
         });
         setTimeout(callback, 200);
     }, function() {
-        fs.writeFileSync('addressdata_m02.txt', JSON.stringify(addressData));
+        // console.log(addressData)
+        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
     });
 }
 
@@ -303,7 +304,7 @@ function api() {
 
 function jsonNotation() {
     
-    var addressData = fs.readFileSync('addressdata_m02.txt');
+    var addressData = fs.readFileSync('addressdata.txt');
     var addressDataParsed = JSON.parse(addressData);
     
     for (i=0; i<29; i++) {
@@ -334,7 +335,8 @@ function addToMongo() {
 
     request(jsonMeetings, function(error, response, body) {
 
-        var url = process.env.ATLAS
+        var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
+        // var url = process.env.ATLAS
         var MongoClient = require('mongodb').MongoClient;
         MongoClient.connect(url, function(err, db) {
             if (err) { return console.dir(err); }

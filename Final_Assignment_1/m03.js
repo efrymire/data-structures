@@ -27,9 +27,9 @@ async function runAnalysis() {
     
     fillArrays();
     cleanseDetails();
-    // meetingObjects();
-    // api();
-    // jsonNotation();
+    meetingObjects();
+    api();
+    jsonNotation();
     // addToMongo();
 };
 
@@ -175,7 +175,7 @@ function cleanseDetails() {
     
     // console.log(locationNames)
     // console.log(leftCol)
-    console.log(details)
+    // console.log(details)
     // console.log(address1)
     // console.log(address2)
     
@@ -295,7 +295,7 @@ function api() {
         });
         setTimeout(callback, 1000);
     }, function() {
-        fs.writeFileSync('addressdata.txt_m03', JSON.stringify(addressData));
+        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
     });
 }
 
@@ -306,7 +306,7 @@ function api() {
 
 function jsonNotation() {
     
-    var addressData = fs.readFileSync('addressdata_m03.txt');
+    var addressData = fs.readFileSync('addressdata.txt');
     var addressDataParsed = JSON.parse(addressData);
     
     for (i=0; i<74; i++) {

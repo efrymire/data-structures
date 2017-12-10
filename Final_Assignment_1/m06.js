@@ -16,7 +16,7 @@ var details = [];
 var jsonMeetings = [];
 var addressData = [];
 
-var content = fs.readFileSync('week_01_data/m05.txt')
+var content = fs.readFileSync('week_01_data/m06.txt')
 var $ = cheerio.load(content);
 
 
@@ -29,7 +29,7 @@ async function runAnalysis() {
     cleanseDetails();
     meetingObjects();
     api();
-    // jsonNotation();
+    jsonNotation();
     // addToMongo();
 };
 
@@ -40,14 +40,14 @@ runAnalysis()
 // (2) the meeting specific details in the center column cell
 
 function fillArrays() {
-    for (i=1; i<28; i++) {
+    for (i=1; i<64; i++) {
         locationNames.push(
             $('h4').eq(i+1).text().trim()
             .replace(/\t/g,'')
             .replace(/\n/g,'')
             );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<64; i++) {
         address1.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -59,7 +59,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<64; i++) {
         address2.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -71,7 +71,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<64; i++) {
         leftCol.push($('td')
             .eq((i*3)).contents().text().trim()
             .replace('\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n                         \n\t\t\t\t\t\t\n                        ',' // ')
@@ -82,22 +82,30 @@ function fillArrays() {
             .replace('\n                        \n                         \n\t\t\t\t\t\t\n                        ',' // ')
         );
     }
-    for (i=1; i<28; i++) {
+    for (i=1; i<64; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
-            .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Reflections\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Reflections \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Meditation\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Meditation \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('It\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','It \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Welcome\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Welcome \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Welcome\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Welcome \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
             .replace('Workshop\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Workshop \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Welcome\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Welcome \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Meditation\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Meditation \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Deaf\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Deaf \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Deaf\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Deaf \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
+            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
@@ -127,7 +135,6 @@ function cleanseDetails() {
             leftCol[i][5] = 'Wheelchair available'}
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
-            
     }
     
     for (i in details) {
@@ -143,10 +150,20 @@ function cleanseDetails() {
     }
     
     for (i in address1) {
-    if (address1[i] == '141 East 43rd Street Basement Hall elevator is available.') {
-        address1[i] = '141 East 43rd Street' }
-    if (address1[i] == '236 EAST 31st STREET basement') {
-        address1[i] = '236 E 31st St' }
+    if (address1[i] == '152 West 66th Street Basement Level Chapel') {
+        address1[i] = '152 West 66th Street' }
+    if (address1[i] == '218 West 108th Street Main Floor') {
+        address1[i] = '218 West 108th Street' }
+    if (address1[i] == '405 West 114th Street Merton Room') {
+        address1[i] = '405 West 114th Street' }
+    if (address1[i] == '164 West 74 Street 1st Floor (ask at Front Desk)') {
+        address1[i] = '164 West 74 Street' }
+    if (address1[i] == '152 West 71st Street Ring Bell') {
+        address1[i] = '152 West 71st Street' }
+    if (address1[i] == '30 West 68th Street  Check security desk for Room #') {
+        address1[i] = '30 West 68th Street' }
+    if (address1[i] == '26 West 84th Street Stanford Room (blue door)') {
+        address1[i] = '26 West 84th Street' }
     }
     
     // console.log(locationNames)
@@ -269,9 +286,9 @@ function api() {
             
             addressData.push(thisMeeting);
         });
-        setTimeout(callback, 1000);
+        setTimeout(callback, 200);
     }, function() {
-        console.log(addressData)
+        // console.log(addressData)
         fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
     });
 }
@@ -286,14 +303,14 @@ function jsonNotation() {
     var addressData = fs.readFileSync('addressdata.txt');
     var addressDataParsed = JSON.parse(addressData);
     
-    for (i=0; i<27; i++) {
+    for (i=0; i<63; i++) {
         
         var thisLocation = new Object;
         
         thisLocation.groupName = leftCol[i][1];
         thisLocation.address1 = address1[i];
         thisLocation.address2 = address2[i];
-        thisLocation.group = 'm05';
+        thisLocation.group = 'm06';
         thisLocation.latLong = addressDataParsed[i].latLong;
         thisLocation.notes = leftCol[i][4];
         thisLocation.wheelchair = leftCol[i][5];
@@ -325,3 +342,4 @@ function addToMongo() {
         });
     });
 }
+

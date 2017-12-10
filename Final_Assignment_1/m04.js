@@ -298,7 +298,7 @@ function api() {
         setTimeout(callback, 1000);
     }, function() {
         // console.log(addressData)
-        fs.writeFileSync('addressdata_m04.txt', JSON.stringify(addressData));
+        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
     });
 }
 
@@ -309,7 +309,7 @@ function api() {
 
 function jsonNotation() {
     
-    var addressData = fs.readFileSync('addressdata_m04.txt');
+    var addressData = fs.readFileSync('addressdata.txt');
     var addressDataParsed = JSON.parse(addressData);
     
     for (i=0; i<53; i++) {

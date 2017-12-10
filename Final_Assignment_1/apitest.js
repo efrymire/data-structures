@@ -3,33 +3,10 @@ var async = require('async');
 var apiKey = process.env.GMAKEY;
 var links = []
 
-var address1 = [ '122 East 37th Street Basement',
-  '30 East 35th Street',
-  '350 East 56th Street',
-  '619 Lexington Avenue Lower Level Music Rooms',
-  '122 East 37th Street Basement',
-  '28 East 35th Street',
-  '350 East 56th Street ',
-  '283 Lexington Avenue 2nd Floor',
-  '122 East 37th Street Basement',
-  '619 Lexington Avenue Lower Level 2 in The Studio',
-  '141 East 43rd Street',
-  '122 E 37TH St.',
-  '122 East 37th Street',
-  '141 East 43rd Street',
-  '209 Madison Avenue 2nd Floor',
-  '122 East 37th Street  Basement',
-  '619 Lexington Avenue Lower Level',
-  '240 East 31st Street NY 10016',
-  '114 East 35th Street 2nd Floor',
-  '230 East 60th Street (Basement) ',
-  '244 East 58th Street',
-  '619 Lexington Avenue Lower Level',
-  '325 Park Avenue',
-  '236 E 31st St.',
-  '308 East 55th Street',
-  '244 East 58th Street',
-  '244 East 58th Street Lower Level' ];
+var address1 = [ '35 East 125 Street 1st Floor Conference Room',
+  '223 East 117th Street 1st Floor Dining Room',
+  '2126 2nd Avenue 1st Floor',
+  '22 East 119th Street  1st Floor Cafeteria' ];
 
 function plus() {
     for (i=0;i<address1.length;i++) {
