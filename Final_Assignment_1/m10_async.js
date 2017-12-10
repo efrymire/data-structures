@@ -83,24 +83,24 @@ function fillArrays() {
     for (i=1; i<23; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
-            .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Sober\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Sundays','Sober \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Sundays')
-            .replace('Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Format\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Format \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Format\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Format \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Promises\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Promises \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Meditation\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Meditation \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Thursdays','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Thursdays')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Tuesdays','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Tuesdays')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Format\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays','Format \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays')
-            .replace('Deaf\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Deaf \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Topic\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Topic \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Welcome\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Welcome \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Men\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays','Men \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Saturdays')
-            .replace('Women\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ','Women \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
-            .replace('Sundays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual\n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual','Sundays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    Fridays From  8:30 PM to 9:30 PM Meeting Type OD = Open Discussion meeting Special Interest Gay, Lesbian and Bisexual')
+            .replace('Sober\n\t\t\t','Sober \n\t\t\t')
+            .replace('Sober\n\t\t\t','Sober \n\t\t\t')
+            .replace('Bisexual\n\t\t\t ','Bisexual \n\t\t\t')
+            .replace('Bisexual\n\t\t\t ','Bisexual \n\t\t\t')
+            .replace('Bisexual\n\t\t\t ','Bisexual \n\t\t\t')
+            .replace('Format\n\t\t\t','Format \n\t\t\t')
+            .replace('Format\n\t\t\t','Format \n\t\t\t')
+            .replace('Promises\n\t\t\t','Promises \n\t\t\t')
+            .replace('Meditation\n\t\t\t','Meditation \n\t\t\t')
+            .replace('Topic\n\t\t\t','Topic \n\t\t\t')
+            .replace('Topic\n\t\t\t','Topic \n\t\t\t')
+            .replace('Topic\n\t\t\t','Topic \n\t\t\t')
+            .replace('Format\n\t\t\t','Format \n\t\t\t')
+            .replace('Deaf\n\t\t\t','Deaf \n\t\t\t')
+            .replace('Topic\n\t\t\t','Topic \n\t\t\t')
+            .replace('Welcome\n\t\t\t','Welcome \n\t\t\t')
+            .replace('Men\n\t\t\t','Men \n\t\t\t')
+            .replace('Women\n\t\t\t','Women \n\t\t\t')
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
@@ -320,14 +320,14 @@ function apiMongo() {
     // add the compiled json objects to mongo db
     
     setTimeout(function() {
-        var dbName = 'aa_group_meetings';
+        // var dbName = 'aa_group_meetings';
         // var groupNamesColl = 'group_names'; 
         var meetingsColl = 'meetings';
     
         request(jsonMeetings, function(error, response, body) {
     
-            var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
-            // var url = process.env.ATLAS
+            // var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
+            var url = process.env.ATLAS
             var MongoClient = require('mongodb').MongoClient;
             MongoClient.connect(url, function(err, db) {
                 if (err) { return console.dir(err); }

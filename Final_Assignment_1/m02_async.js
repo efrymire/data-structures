@@ -296,10 +296,10 @@ function apiMongo() {
     // and other details
     
     function() {
+        
         // console.log(addressData);
-        var addressDataParsed = addressData;
     
-        for (i=0; i<28; i++) {
+        for (i=0; i<addressData.length; i++) {
             
             var thisLocation = new Object;
             
@@ -327,8 +327,8 @@ function apiMongo() {
     
         request(jsonMeetings, function(error, response, body) {
     
-            var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
-            // var url = process.env.ATLAS
+            // var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
+            var url = process.env.ATLAS
             var MongoClient = require('mongodb').MongoClient;
             MongoClient.connect(url, function(err, db) {
                 if (err) { return console.dir(err); }

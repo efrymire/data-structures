@@ -311,14 +311,14 @@ function apiMongo() {
     // add the compiled json objects to mongo db
     
     setTimeout(function() {
-        var dbName = 'aa_group_meetings';
+        // var dbName = 'aa_group_meetings';
         // var groupNamesColl = 'group_names'; 
         var meetingsColl = 'meetings';
     
         request(jsonMeetings, function(error, response, body) {
     
-            var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
-            // var url = process.env.ATLAS
+            // var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
+            var url = process.env.ATLAS
             var MongoClient = require('mongodb').MongoClient;
             MongoClient.connect(url, function(err, db) {
                 if (err) { return console.dir(err); }

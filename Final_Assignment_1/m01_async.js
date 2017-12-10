@@ -105,12 +105,6 @@ function fillArrays() {
         );
     }
     
-    // console.log(locationNames)
-    // console.log(address1)
-    // console.log(address2)
-    // console.log(leftCol)
-    // console.log(details)
-    
 }
 
 // ----------------------- CLEANSE -----------------------
@@ -131,10 +125,6 @@ function cleanseDetails() {
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
             
-        // address[i] = leftCol[i][2].replace(/,/g,'').trim()
-        
-        // if (leftCol[i][2] == '(@ 200th Street, behind Dyckman Avenue ) NY 10040') {
-            // address[i] = '35 Thayer Street, Basement'}
     }
     
     for (i in details) {
@@ -167,12 +157,6 @@ function cleanseDetails() {
     if (address1[i] == '273 Bowery Downstairs') {
         address1[i] = '273 Bowery St' }
     }
-    
-    // console.log(locationNames)
-    // console.log(leftCol)
-    // console.log(details)
-    // console.log(address1)
-    // console.log(address2)
     
 }
 
@@ -296,12 +280,12 @@ function apiMongo() {
     // and other details
     
     function() {
-        // fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
-        console.log(addressData);
+        
+        // console.log(addressData);
         
         var addressDataParsed = addressData;
     
-        for (i=0; i<22; i++) {
+        for (i=0; i<addressData.length; i++) {
             
             var thisLocation = new Object;
             
@@ -331,8 +315,8 @@ function apiMongo() {
     
         request(jsonMeetings, function(error, response, body) {
     
-            var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
-            // var url = process.env.ATLAS
+            // var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
+            var url = process.env.ATLAS
             var MongoClient = require('mongodb').MongoClient;
             MongoClient.connect(url, function(err, db) {
                 if (err) { return console.dir(err); }
