@@ -18,29 +18,35 @@ group.*
 
 My code can be broken down by group in the following structure:
 
-**Prep**: Arrange the variables and environment for the code to run
+* **Prep**: Arrange the variables and environment for the code to run
 
-**Order**: Use an async function to follow each subsequent function in the correct order
 
-**Parse**: Parse the data and fill several arrays to gather the right information. 
+* **Order**: Use an async function to follow each subsequent function in the correct order
+
+
+* **Parse**: Parse the data and fill several arrays to gather the right information. 
 These arrays include location names, address information, wheelchair and location
 notes, meeting group name, and meeting details (day and time).
 
-**Cleanse**: I then replaced certain values, updated the arrays, and cleansed the data
+
+* **Cleanse**: I then replaced certain values, updated the arrays, and cleansed the data
 based on the final output. This often included replacing addresses that were
 not obtaining in an api result.
 
-**Meeting Objects**: I created a function that put the meeting information into the right arrangement
+
+* **Meeting Objects**: I created a function that put the meeting information into the right arrangement
 of JSON notation and fixed the time arrangement issues. This was particularly
 challenging because they had to remain within the array of the location 
 in which all meetings take place. 
 
-**API**: I then run the address data through the google API
 
-**JSON Notation**: I compile the meeting details, address information, and other 
+* **API**: I then run the address data through the google API
+
+
+* **JSON Notation**: I compile the meeting details, address information, and other 
 relevant information into a JSON object to put into mongo.
 
-**Mongo**: Connect with the mongo client and insert this specific group. 
+* **Mongo**: Connect with the mongo client and insert this specific group. 
 
 ### Lessons Learned
 
