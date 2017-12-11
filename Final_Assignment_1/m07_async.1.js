@@ -1,3 +1,5 @@
+// FIRST HALF OF GROUP 7
+
 // ----------------------- PREP -----------------------
 // arrange the variables and environment
 
@@ -28,9 +30,7 @@ async function runAnalysis() {
     fillArrays();
     cleanseDetails();
     meetingObjects();
-    api();
-    jsonNotation();
-    // addToMongo();
+    api()
 };
 
 runAnalysis()
@@ -110,13 +110,6 @@ function fillArrays() {
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
-    
-    // console.log(locationNames)
-    // console.log(address1)
-    // console.log(address2)
-    // console.log(leftCol)
-    // console.log(details)
-    
 }
 
 // ----------------------- CLEANSE -----------------------
@@ -124,6 +117,12 @@ function fillArrays() {
 // (2) populate wheelchair info, and (3) populate the street address array
 
 function cleanseDetails() {
+    
+    for (i in locationNames) {
+        
+        if (locationNames[i] == '') {
+            locationNames[i] = address1[i] }
+    }
     
     for (i in leftCol) {
         
@@ -136,6 +135,9 @@ function cleanseDetails() {
             leftCol[i][5] = 'Wheelchair available'}
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
+            
+        leftCol[i][1] = leftCol[i][1].substring(0, leftCol[i][1].indexOf(' -'))
+        
     }
     
     for (i in details) {
@@ -157,15 +159,13 @@ function cleanseDetails() {
         address1[i] = '65 East 89th Street' }
     if (address1[i] == '341 East 87th Street  Choir Room (Ring Bell)') {
         address1[i] = '341 East 87th Street' }
-    if (address1[i] == '351 East 74th Street  2nd Floor Museum Room') {
-        address1[i] = '351 East 74th Street' }
+    if (address1[i] == '351 East 74th Street  2nd Floor Museum Room' || address1[i] == '351 East 74th Street 2nd Floor') {
+        address1[i] = '351 East 74th Street (2nd Floor Museum Room)' }
+    if (address1[i] == '351 East 74th Street 2nd Floor') {
+        address1[i] = '351 East 74th Street (2nd Floor)' }
+    if (address1[i] == '413 East 79th Street  Basement') {
+        address1[i] = '413 East 79th Street (Basement)' }
     }
-    
-    // console.log(locationNames)
-    // console.log(leftCol)
-    // console.log(details)
-    // console.log(address1)
-    // console.log(address2)
     
 }
 
@@ -192,13 +192,17 @@ function meetingObjects() {
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = (shour - 12) + ':00' + ' PM'
+                } else { thisMeeting.start = (shour - 12) + ':' + smin + ' PM' }
             } else {
                 var shour = Number(input[j].split(' // ')[1].slice(-8,-6).trim())
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = shour + ':00' + ' AM'
+                } else {thisMeeting.start = shour + ':' + smin + ' AM' }
             }
             
             // turn end time into 24 hour
@@ -207,13 +211,17 @@ function meetingObjects() {
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin == 0) {
+                    thisMeeting.end = (ehour - 12) + ':00 PM'
+                } else { thisMeeting.end = (ehour - 12) + ':' + emin + ' PM' }
             } else {
                 var ehour = Number(input[j].split(' // ')[2].slice(-8,-6).trim())
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin = 0) {
+                    thisMeeting.end = ehour + ':00 AM'
+                } else { thisMeeting.end = ehour + ':' + emin + ' AM' }
             }
             
             // input meeting type
@@ -284,57 +292,6 @@ function api() {
         setTimeout(callback, 800);
     }, function() {
         // console.log(addressData)
-        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
+        fs.writeFileSync('addressdata.txt', JSON.stringify(m07addressData));
     });
 }
-
-
-// ----------------------- JSON NOTATION -----------------------
-// create the final JSON notation with meeting array, location, 
-// and other details
-
-function jsonNotation() {
-    
-    var addressData = fs.readFileSync('addressdata.txt');
-    var addressDataParsed = JSON.parse(addressData);
-    
-    for (i=0; i<53; i++) {
-        
-        var thisLocation = new Object;
-        
-        thisLocation.groupName = leftCol[i][1];
-        thisLocation.address1 = address1[i];
-        thisLocation.address2 = address2[i];
-        thisLocation.group = 'm07';
-        thisLocation.latLong = addressDataParsed[i].latLong;
-        thisLocation.notes = leftCol[i][4];
-        thisLocation.wheelchair = leftCol[i][5];
-        thisLocation.meetings = details[i];
-        
-        jsonMeetings.push(thisLocation);
-    }
-console.log(jsonMeetings)
-}
-
-// ----------------------- MONGO -----------------------
-// add the compiled json objects to mongo db
-
-function addToMongo() {
-    var dbName = 'ellie';
-    // var groupNamesColl = 'group_names'; 
-    var meetingsColl = 'meetings';
-
-    request(jsonMeetings, function(error, response, body) {
-
-        var url = process.env.ATLAS
-        var MongoClient = require('mongodb').MongoClient;
-        MongoClient.connect(url, function(err, db) {
-            if (err) { return console.dir(err); }
-            var collection = db.collection(meetingsColl);
-            collection.insert(jsonMeetings);
-            db.close();
-            
-        });
-    });
-}
-

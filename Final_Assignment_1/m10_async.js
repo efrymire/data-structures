@@ -166,8 +166,6 @@ function cleanseDetails() {
     if (address1[i] == '273 Bowery Downstairs') {
         address1[i] = '273 Bowery St' }
     }
-
-    
 }
 
 

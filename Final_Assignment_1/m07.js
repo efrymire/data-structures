@@ -16,7 +16,7 @@ var details = [];
 var jsonMeetings = [];
 var addressData = [];
 
-var content = fs.readFileSync('week_01_data/m09.txt')
+var content = fs.readFileSync('week_01_data/m07.txt')
 var $ = cheerio.load(content);
 
 
@@ -28,7 +28,9 @@ async function runAnalysis() {
     fillArrays();
     cleanseDetails();
     meetingObjects();
-    apiMongo();
+    api();
+    jsonNotation();
+    // addToMongo();
 };
 
 runAnalysis()
@@ -38,14 +40,14 @@ runAnalysis()
 // (2) the meeting specific details in the center column cell
 
 function fillArrays() {
-    for (i=1; i<5; i++) {
+    for (i=1; i<54; i++) {
         locationNames.push(
             $('h4').eq(i+1).text().trim()
             .replace(/\t/g,'')
             .replace(/\n/g,'')
             );
     }
-    for (i=1; i<5; i++) {
+    for (i=1; i<54; i++) {
         address1.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -57,7 +59,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<5; i++) {
+    for (i=1; i<54; i++) {
         address2.push(
             $('td').eq(i*3).contents()
             .filter(function() {
@@ -69,7 +71,7 @@ function fillArrays() {
             .replace(/,/g,'')
             );
     }
-    for (i=1; i<5; i++) {
+    for (i=1; i<54; i++) {
         leftCol.push($('td')
             .eq((i*3)).contents().text().trim()
             .replace('\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n                         \n\t\t\t\t\t\t\n                        ',' // ')
@@ -80,12 +82,41 @@ function fillArrays() {
             .replace('\n                        \n                         \n\t\t\t\t\t\t\n                        ',' // ')
         );
     }
-    for (i=1; i<5; i++) {
+    for (i=1; i<54; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
+            .replace('Sober\n\t\t\t','Sober \n\t\t\t')
+            .replace('It\n\t\t\t','It \n\t\t\t')
+            .replace('It\n\t\t\t','It \n\t\t\t')
+            .replace('Welcome\n\t\t\t','Welcome \n\t\t\t')
+            .replace('1-2-3\n\t\t\t','1-2-3 \n\t\t\t')
+            .replace('Welcome\n\t\t\t','Welcome \n\t\t\t')
+            .replace('Workshop\n\t\t\t','Workshop \n\t\t\t')
+            .replace('Workshop\n\t\t\t','Workshop \n\t\t\t')
+            .replace('Welcome\n\t\t\t','Welcome \n\t\t\t')
+            .replace('Promises\n\t\t\t','Promises \n\t\t\t')
+            .replace('Promises\n\t\t\t','Promises \n\t\t\t')
+            .replace('Bisexual\n\t\t\t','Bisexual \n\t\t\t')
+            .replace('Bisexual\n\t\t\t','Bisexual \n\t\t\t')
+            .replace('Meditation\n\t\t\t','Meditation \n\t\t\t')
+            .replace('Men\n\t\t\t','Men \n\t\t\t')
+            .replace('Women\n\t\t\t','Women \n\t\t\t')
+            .replace('Reflections\n\t\t\t','Reflections \n\t\t\t')
+            .replace('Reflections\n\t\t\t','Reflections \n\t\t\t')
+            .replace('Reflections\n\t\t\t','Reflections \n\t\t\t')
+            .replace('Reflections\n\t\t\t','Reflections \n\t\t\t')
+            .replace('Reflections\n\t\t\t','Reflections \n\t\t\t')
+            .replace('It\n\t\t\t','It \n\t\t\t')
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
+    
+    // console.log(locationNames)
+    // console.log(address1)
+    // console.log(address2)
+    // console.log(leftCol)
+    // console.log(details)
+    
 }
 
 // ----------------------- CLEANSE -----------------------
@@ -129,9 +160,26 @@ function cleanseDetails() {
     }
     
     for (i in address1) {
-    if (address1[i] == '22 East 119th Street  1st Floor Cafeteria') {
-        address1[i] = '22 East 119th Street' }
+    if (address1[i] == '48 East 80th Street 2nd Floor Library Ring Bell Next to Sign.') {
+        address1[i] = '48 East 80th Street 2nd Floor' }
+    if (address1[i] == '65 East 89th Street Ring Red Buzzer Chelsea Room') {
+        address1[i] = '65 East 89th Street' }
+    if (address1[i] == '341 East 87th Street  Choir Room (Ring Bell)') {
+        address1[i] = '341 East 87th Street' }
+    if (address1[i] == '351 East 74th Street  2nd Floor Museum Room') {
+        address1[i] = '351 East 74th Street' }
+    if (address1[i] == '351 East 74th Street 2nd Floor') {
+        address1[i] = '351 East 74th Street (2nd Floor)' }
+    if (address1[i] == '413 East 79th Street  Basement') {
+        address1[i] = '413 East 79th Street (Basement)' }
     }
+    
+    // console.log(locationNames)
+    // console.log(leftCol)
+    // console.log(details)
+    // console.log(address1)
+    // console.log(address2)
+    
 }
 
 
@@ -225,7 +273,7 @@ function meetingObjects() {
 // ----------------------- LOCATIONS API -----------------------
 // get the location details through the google API
 
-function apiMongo() {
+function api() {
     
     async.eachSeries(address1, function(value, callback) {
             
@@ -254,57 +302,61 @@ function apiMongo() {
             
             addressData.push(thisMeeting);
         });
-        setTimeout(callback, 200);
-    }, 
-    
-    // ----------------------- JSON NOTATION -----------------------
-    // create the final JSON notation with meeting array, location, 
-    // and other details
-    
-    function() {
-        // console.log(addressData);
-    
-        for (i=0; i<4; i++) {
-            
-            var thisLocation = new Object;
-            
-            thisLocation.locationName = locationNames[i]
-            thisLocation.groupName = leftCol[i][1];
-            thisLocation.address1 = address1[i];
-            thisLocation.address2 = address2[i];
-            thisLocation.group = 'm09';
-            thisLocation.latLong = addressData[i].latLong;
-            thisLocation.notes = leftCol[i][4];
-            thisLocation.wheelchair = leftCol[i][5];
-            thisLocation.meetings = details[i];
-            
-            jsonMeetings.push(thisLocation);
-        }
-        console.log(jsonMeetings)
-    },
-    
-    // ----------------------- MONGO -----------------------
-    // add the compiled json objects to mongo db
-    
-    setTimeout(function() {
-        // var dbName = 'aa_group_meetings';
-        // var groupNamesColl = 'group_names'; 
-        var meetingsColl = 'meetings';
-    
-        request(jsonMeetings, function(error, response, body) {
-    
-            // var url = 'mongodb://' + process.env.IP + ':27017/' + dbName;
-            var url = process.env.ATLAS
-            var MongoClient = require('mongodb').MongoClient;
-            MongoClient.connect(url, function(err, db) {
-                if (err) { return console.dir(err); }
-                var collection = db.collection(meetingsColl);
-                collection.insert(jsonMeetings);
-                db.close();
-                
-            });
-        });
-    }, 30000)
-)}
+        setTimeout(callback, 800);
+    }, function() {
+        // console.log(addressData)
+        fs.writeFileSync('addressdata.txt', JSON.stringify(addressData));
+    });
+}
 
+
+// ----------------------- JSON NOTATION -----------------------
+// create the final JSON notation with meeting array, location, 
+// and other details
+
+function jsonNotation() {
+    
+    var addressData = fs.readFileSync('addressdata.txt');
+    var addressDataParsed = JSON.parse(addressData);
+    
+    for (i=0; i<53; i++) {
+        
+        var thisLocation = new Object;
+        
+        thisLocation.locationName = locationNames[i]
+        thisLocation.groupName = leftCol[i][1];
+        thisLocation.address1 = address1[i];
+        thisLocation.address2 = address2[i];
+        thisLocation.group = 'm07';
+        thisLocation.latLong = addressDataParsed[i].latLong;
+        thisLocation.notes = leftCol[i][4];
+        thisLocation.wheelchair = leftCol[i][5];
+        thisLocation.meetings = details[i];
+        
+        jsonMeetings.push(thisLocation);
+    }
+console.log(jsonMeetings)
+}
+
+// ----------------------- MONGO -----------------------
+// add the compiled json objects to mongo db
+
+function addToMongo() {
+    // var dbName = 'ellie';
+    // var groupNamesColl = 'group_names'; 
+    var meetingsColl = 'meetings';
+
+    request(jsonMeetings, function(error, response, body) {
+
+        var url = process.env.ATLAS
+        var MongoClient = require('mongodb').MongoClient;
+        MongoClient.connect(url, function(err, db) {
+            if (err) { return console.dir(err); }
+            var collection = db.collection(meetingsColl);
+            collection.insert(jsonMeetings);
+            db.close();
+            
+        });
+    });
+}
 

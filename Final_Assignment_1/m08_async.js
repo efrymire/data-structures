@@ -86,13 +86,6 @@ function fillArrays() {
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
-    
-    // console.log(locationNames)
-    // console.log(address1)
-    // console.log(address2)
-    // console.log(leftCol)
-    // console.log(details)
-    
 }
 
 // ----------------------- CLEANSE -----------------------
@@ -141,13 +134,7 @@ function cleanseDetails() {
     if (address1[i] == '211 West 129th Street Downstairs in the Gym') {
         address1[i] = '211 West 129th Street'}
     }
-    
-    // console.log(locationNames)
-    // console.log(leftCol)
-    // console.log(details)
-    // console.log(address1)
-    // console.log(address2)
-    
+
 }
 
 

@@ -1,0 +1,59 @@
+;
+
+        function makeContent(cont) {
+            var contentHolder = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>';
+            for (var i = 0; i < cont.meetingGroups.length; i++) {
+                if (i == 0) {
+                    contentHolder = contentHolder + '<h2>' + cont.meetingGroups[i].groupInfo.locationName + '</h2>';
+                    contentHolder = contentHolder + '<p>' + cont.meetingGroups[i].groupInfo.meetingAddress1 + '<br>' + cont.meetingGroups[i].groupInfo.meetingAddress2 + '</p>';
+                }
+                contentHolder = contentHolder + '<h1 id="firstHeading" class="firstHeading">';
+                contentHolder = contentHolder + cont.meetingGroups[i].groupInfo.meetingName + '</h1>';
+
+                 for (var j = 0; j < cont.meetingGroups[i].meetingType.length; j++) {
+                    contentHolder = contentHolder + cont.meetingGroups[i].meetingStartTime[j] + ' ' + cont.meetingGroups[i].meetingType[j] + '<br>';
+                }
+
+                contentHolder = contentHolder + '</p>';
+                contentHolder = contentHolder + '<div class="iw-bottom-gradient"></div>';
+            }
+            return contentHolder;
+        }
+
+        function setMarkers(map, locations) {
+            // Add markers to the map
+            var infowindow = new google.maps.InfoWindow({
+                maxWidth: 200
+            });
+
+            for (var i = 0; i < meetings.length; i++) {
+                var meeting = meetings[i];
+                var myLatLng = new google.maps.LatLng(meeting._id.latLong.lat, meeting._id.latLong.lng);
+
+                var contentWindow = makeContent(meetings[i]);
+
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: "Click for meeting info",
+                    content: contentWindow,
+                });
+
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.setContent(this.content);
+                    infowindow.open(map, this);
+                });
+            }
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</head>
+
+<body>
+<div id="map-canvas"></div>
+</body>
+
+</html>

@@ -108,13 +108,6 @@ function fillArrays() {
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
-    
-    // console.log(locationNames)
-    // console.log(address1)
-    // console.log(address2)
-    // console.log(leftCol)
-    // console.log(details)
-    
 }
 
 // ----------------------- CLEANSE -----------------------
@@ -164,15 +157,13 @@ function cleanseDetails() {
         address1[i] = '65 East 89th Street' }
     if (address1[i] == '341 East 87th Street  Choir Room (Ring Bell)') {
         address1[i] = '341 East 87th Street' }
-    if (address1[i] == '351 East 74th Street  2nd Floor Museum Room') {
-        address1[i] = '351 East 74th Street' }
+    if (address1[i] == '351 East 74th Street  2nd Floor Museum Room' || address1[i] == '351 East 74th Street 2nd Floor') {
+        address1[i] = '351 East 74th Street (2nd Floor Museum Room)' }
+    if (address1[i] == '351 East 74th Street 2nd Floor') {
+        address1[i] = '351 East 74th Street (2nd Floor)' }
+    if (address1[i] == '413 East 79th Street  Basement') {
+        address1[i] = '413 East 79th Street (Basement)' }
     }
-    
-    // console.log(locationNames)
-    // console.log(leftCol)
-    // console.log(details)
-    // console.log(address1)
-    // console.log(address2)
     
 }
 
@@ -304,9 +295,8 @@ function apiMongo() {
     // and other details
     
     function() {
-        // console.log(addressData);
-    
-        for (i=0; i<53; i++) {
+            
+            for (i=0; i<53; i++) {
             
             var thisLocation = new Object;
             
@@ -321,9 +311,13 @@ function apiMongo() {
             thisLocation.meetings = details[i];
             
             jsonMeetings.push(thisLocation);
-        }
-        console.log(jsonMeetings)
+            }
+        
+        setTimeout(callback, 200);
+        console.log(jsonMeetings);
+        
     },
+    
     
     // ----------------------- MONGO -----------------------
     // add the compiled json objects to mongo db
