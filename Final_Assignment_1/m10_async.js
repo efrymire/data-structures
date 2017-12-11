@@ -104,12 +104,7 @@ function fillArrays() {
             .split(' \n\t\t\t \t\t\t\n                    \t\n                    \t\n\t\t\t\t  \t    ')
         );
     }
-    
-    // console.log(locationNames)
-    // console.log(address1)
-    // console.log(address2)
-    // console.log(leftCol)
-    // console.log(details)
+
     
 }
 
@@ -118,6 +113,12 @@ function fillArrays() {
 // (2) populate wheelchair info, and (3) populate the street address array
 
 function cleanseDetails() {
+    
+    for (i in locationNames) {
+        
+        if (locationNames[i] == '') {
+            locationNames[i] = address1[i] }
+    }
     
     for (i in leftCol) {
         
@@ -131,10 +132,8 @@ function cleanseDetails() {
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
             
-        // address[i] = leftCol[i][2].replace(/,/g,'').trim()
+        leftCol[i][1] = leftCol[i][1].substring(0, leftCol[i][1].indexOf(' -'))
         
-        // if (leftCol[i][2] == '(@ 200th Street, behind Dyckman Avenue ) NY 10040') {
-            // address[i] = '35 Thayer Street, Basement'}
     }
     
     for (i in details) {
@@ -167,12 +166,7 @@ function cleanseDetails() {
     if (address1[i] == '273 Bowery Downstairs') {
         address1[i] = '273 Bowery St' }
     }
-    
-    // console.log(locationNames)
-    // console.log(leftCol)
-    // console.log(details)
-    // console.log(address1)
-    // console.log(address2)
+
     
 }
 
@@ -199,13 +193,17 @@ function meetingObjects() {
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = (shour - 12) + ':00' + ' PM'
+                } else { thisMeeting.start = (shour - 12) + ':' + smin + ' PM' }
             } else {
                 var shour = Number(input[j].split(' // ')[1].slice(-8,-6).trim())
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = shour + ':00' + ' AM'
+                } else {thisMeeting.start = shour + ':' + smin + ' AM' }
             }
             
             // turn end time into 24 hour
@@ -214,13 +212,17 @@ function meetingObjects() {
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin == 0) {
+                    thisMeeting.end = (ehour - 12) + ':00 PM'
+                } else { thisMeeting.end = (ehour - 12) + ':' + emin + ' PM' }
             } else {
                 var ehour = Number(input[j].split(' // ')[2].slice(-8,-6).trim())
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin = 0) {
+                    thisMeeting.end = ehour + ':00 AM'
+                } else { thisMeeting.end = ehour + ':' + emin + ' AM' }
             }
             
             // input meeting type
@@ -298,10 +300,11 @@ function apiMongo() {
     function() {
         // console.log(addressData);
     
-        for (i=0; i<addressData.length; i++) {
+        for (i=0; i<22; i++) {
             
             var thisLocation = new Object;
             
+            thisLocation.locationName = locationNames[i]
             thisLocation.groupName = leftCol[i][1];
             thisLocation.address1 = address1[i];
             thisLocation.address2 = address2[i];

@@ -80,6 +80,8 @@ function fillArrays() {
             .replace('\n                        \n                         \n\t\t\t\t\t\t\n                        ',' // ')
         );
     }
+    
+    
     for (i=1; i<23; i++) {
         details.push($('td')
             .eq((i*3)+1).contents().text().trim()
@@ -105,6 +107,7 @@ function fillArrays() {
         );
     }
     
+    // console.log(leftCol)
 }
 
 // ----------------------- CLEANSE -----------------------
@@ -112,6 +115,12 @@ function fillArrays() {
 // (2) populate wheelchair info, and (3) populate the street address array
 
 function cleanseDetails() {
+    
+    for (i in locationNames) {
+        
+        if (locationNames[i] == '') {
+            locationNames[i] = address1[i] }
+    }
     
     for (i in leftCol) {
         
@@ -124,7 +133,9 @@ function cleanseDetails() {
             leftCol[i][5] = 'Wheelchair available'}
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
-            
+         
+        leftCol[i][1] = leftCol[i][1].substring(0, leftCol[i][1].indexOf(' -'))
+        
     }
     
     for (i in details) {
@@ -158,6 +169,9 @@ function cleanseDetails() {
         address1[i] = '273 Bowery St' }
     }
     
+    // console.log(leftCol)
+    // console.log(locationNames)
+    
 }
 
 
@@ -183,13 +197,17 @@ function meetingObjects() {
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = (shour - 12) + ':00' + ' PM'
+                } else { thisMeeting.start = (shour - 12) + ':' + smin + ' PM' }
             } else {
                 var shour = Number(input[j].split(' // ')[1].slice(-8,-6).trim())
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = shour + ':00' + ' AM'
+                } else {thisMeeting.start = shour + ':' + smin + ' AM' }
             }
             
             // turn end time into 24 hour
@@ -198,13 +216,17 @@ function meetingObjects() {
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin == 0) {
+                    thisMeeting.end = (ehour - 12) + ':00 PM'
+                } else { thisMeeting.end = (ehour - 12) + ':' + emin + ' PM' }
             } else {
                 var ehour = Number(input[j].split(' // ')[2].slice(-8,-6).trim())
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin = 0) {
+                    thisMeeting.end = ehour + ':00 AM'
+                } else { thisMeeting.end = ehour + ':' + emin + ' AM' }
             }
             
             // input meeting type
@@ -236,6 +258,7 @@ function meetingObjects() {
             output.push(thisMeeting);
         }
     return output;
+    // console.log(output)
     }
 }
 
@@ -285,10 +308,11 @@ function apiMongo() {
         
         var addressDataParsed = addressData;
     
-        for (i=0; i<addressData.length; i++) {
+        for (i=0; i<22; i++) {
             
             var thisLocation = new Object;
             
+            thisLocation.locationName = locationNames[i]
             thisLocation.groupName = leftCol[i][1];
             thisLocation.address1 = address1[i];
             thisLocation.address2 = address2[i];
@@ -309,7 +333,7 @@ function apiMongo() {
     // add the compiled json objects to mongo db
     
     setTimeout(function() {
-        var dbName = 'aa_group_meetings';
+        // var dbName = 'aa_group_meetings';
         // var groupNamesColl = 'group_names'; 
         var meetingsColl = 'meetings';
     
