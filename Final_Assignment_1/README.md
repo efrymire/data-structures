@@ -1,10 +1,10 @@
 ## Final Assignment 1
 
-#### Final URL
+### Final URL
 
 http://ec2-18-221-211-66.us-east-2.compute.amazonaws.com:4000/aa
 
-#### Assignment Description
+### Assignment Description
 
 *You will expand on weekly assignments one through six to scrape New York's AA 
 Meeting List to capture, clean, and store all meetings in Manhattan (zones one 
@@ -14,7 +14,7 @@ meetings as map markers, with Info windows that show all relevant information
 about the meeting(s) at each marker. Here's an example, showing one meeting 
 group.*
 
-#### Information Regarding This Submission
+### Information Regarding This Submission
 
 My code can be broken down by group in the following structure:
 
@@ -42,7 +42,7 @@ relevant information into a JSON object to put into mongo.
 
 **Mongo**: Connect with the mongo client and insert this specific group. 
 
-#### Lessons Learned
+### Lessons Learned
 
 I've learned a lot about javascript, functions, variables, and errors through this
 assignment. Now that I know what I do, I can see how my own code is flawed. 

@@ -1,10 +1,10 @@
 ## Final Assignment 2
 
-#### Final URL
+### Final URL
 
 http://ec2-18-221-211-66.us-east-2.compute.amazonaws.com:3000/
 
-#### Assignment Description
+### Assignment Description
 
 **Part One**
 
@@ -20,7 +20,7 @@ documentation.*
 The returned data should be appropriate for the time of the query and map directly 
 to the elements of the interface design you specified in Part One.*
 
-#### Information Regarding This Submission
+### Information Regarding This Submission
 
 For this project, I recieved the [ir sensor](https://github.com/visualizedata/data-structures/blob/master/assignments/weekly_assignment_07/ir.md) 
 and the [temperature sensor](https://github.com/visualizedata/data-structures/blob/master/assignments/weekly_assignment_07/temperature.md).
