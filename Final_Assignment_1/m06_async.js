@@ -164,7 +164,7 @@ function cleanseDetails() {
         address1[i] = '30 West 68th Street' }
     if (address1[i] == '26 West 84th Street Stanford Room (blue door)') {
         address1[i] = '26 West 84th Street' }
-    if (address1[i] == '207 West 96th Street Basement') {
+    if (address1[i] == '207 West 96th Street  Basement' || address1[i] == '207 West 96th Street Little Room Basement' || address1[i] == '207 West 96th Street Basement Little Room 10025') {
         address1[i] = '207 West 96th Street' }
     if (address1[i] == 'Central Park West & 76th Street - basement gymnasium') {
         address1[i] = '160 Central Park West' }

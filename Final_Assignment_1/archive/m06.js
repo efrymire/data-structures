@@ -29,8 +29,8 @@ async function runAnalysis() {
     cleanseDetails();
     meetingObjects();
     api();
-    jsonNotation();
-    // addToMongo();
+    setTimeout(function() {jsonNotation()}, 1000);
+    setTimeout(function() {addToMongo()}, 1000);
 };
 
 runAnalysis()
@@ -124,6 +124,12 @@ function fillArrays() {
 
 function cleanseDetails() {
     
+    for (i in locationNames) {
+        
+        if (locationNames[i] == '') {
+            locationNames[i] = address1[i] }
+    }
+    
     for (i in leftCol) {
         
         leftCol[i] = leftCol[i].split(' // ')
@@ -135,6 +141,9 @@ function cleanseDetails() {
             leftCol[i][5] = 'Wheelchair available'}
         if (leftCol[i][4] == undefined) {
             leftCol[i][4] = 'no notes'}
+            
+        leftCol[i][1] = leftCol[i][1].substring(0, leftCol[i][1].indexOf(' -'))
+        
     }
     
     for (i in details) {
@@ -164,14 +173,13 @@ function cleanseDetails() {
         address1[i] = '30 West 68th Street' }
     if (address1[i] == '26 West 84th Street Stanford Room (blue door)') {
         address1[i] = '26 West 84th Street' }
+    if (address1[i] == '207 West 96th Street Basement' || address1[i] == '207 West 96th Street Little Room Basement') {
+        address1[i] = '207 West 96th Street' }
+    if (address1[i] == 'Central Park West & 76th Street - basement gymnasium') {
+        address1[i] = '160 Central Park West' }
+    if (address1[i] == '207 West 96th Street Basement Little Room') {
+        address1[i] = '207 West 96th Street' }  
     }
-    
-    // console.log(locationNames)
-    // console.log(leftCol)
-    // console.log(details)
-    // console.log(address1)
-    // console.log(address2)
-    
 }
 
 
@@ -191,19 +199,23 @@ function meetingObjects() {
             var thisMeeting = new Object
             thisMeeting.day = input[j].split(' // ')[0].trim()
             
-            // turn start time into 24 hour
+                        // turn start time into 24 hour
             if (input[j].split(' // ')[1].slice(-2) == 'PM') {
                 var shour = Number(input[j].split(' // ')[1].slice(-8,-6).trim()) + 12
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = (shour - 12) + ':00' + ' PM'
+                } else { thisMeeting.start = (shour - 12) + ':' + smin + ' PM' }
             } else {
                 var shour = Number(input[j].split(' // ')[1].slice(-8,-6).trim())
                 var smin = Number(input[j].split(' // ')[1].slice(-5,-2).trim())
                 thisMeeting.startH = shour
                 thisMeeting.startM = smin
-                thisMeeting.start = shour + ':' + smin
+                if (smin == 0) {
+                    thisMeeting.start = shour + ':00' + ' AM'
+                } else {thisMeeting.start = shour + ':' + smin + ' AM' }
             }
             
             // turn end time into 24 hour
@@ -212,13 +224,17 @@ function meetingObjects() {
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin == 0) {
+                    thisMeeting.end = (ehour - 12) + ':00 PM'
+                } else { thisMeeting.end = (ehour - 12) + ':' + emin + ' PM' }
             } else {
                 var ehour = Number(input[j].split(' // ')[2].slice(-8,-6).trim())
                 var emin = Number(input[j].split(' // ')[2].slice(-5,-2).trim())
                 thisMeeting.endH = ehour
                 thisMeeting.endM = emin
-                thisMeeting.end = ehour + ':' + emin
+                if (emin = 0) {
+                    thisMeeting.end = ehour + ':00 AM'
+                } else { thisMeeting.end = ehour + ':' + emin + ' AM' }
             }
             
             // input meeting type
@@ -303,10 +319,12 @@ function jsonNotation() {
     var addressData = fs.readFileSync('addressdata.txt');
     var addressDataParsed = JSON.parse(addressData);
     
-    for (i=0; i<63; i++) {
+    setTimeout(function() {
+        for (i=0; i<63; i++) {
         
         var thisLocation = new Object;
         
+        thisLocation.locationName = locationNames[i]
         thisLocation.groupName = leftCol[i][1];
         thisLocation.address1 = address1[i];
         thisLocation.address2 = address2[i];
@@ -318,6 +336,7 @@ function jsonNotation() {
         
         jsonMeetings.push(thisLocation);
     }
+    },3000)
 console.log(jsonMeetings)
 }
 

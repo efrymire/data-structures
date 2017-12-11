@@ -313,7 +313,6 @@ function apiMongo() {
             jsonMeetings.push(thisLocation);
             }
         
-        setTimeout(callback, 200);
         console.log(jsonMeetings);
         
     },
