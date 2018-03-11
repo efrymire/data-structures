@@ -15,7 +15,7 @@ var index3 = fs.readFileSync("index3.txt");
 
 app.get('/aa', function(req, res) {
 
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(url, function(err, client) {
         if (err) { return console.dir(err); }
 
         var weekArray =
@@ -37,9 +37,9 @@ app.get('/aa', function(req, res) {
         console.log(todayMatch)
         // console.log(tomorrowMatch)
 
-        var collection = db.collection(collName);
+        var db = client.db("ellie");
 
-        collection.aggregate([ // start of aggregation pipeline
+        db.collection(collName).aggregate([ // start of aggregation pipeline
             // // match by day and time
 
             { $unwind: "$meetings" },
